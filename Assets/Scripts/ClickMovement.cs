@@ -27,7 +27,8 @@ public class ClickMovement : MonoBehaviour
             RaycastHit hit;
             if(Physics.Raycast(camera.ScreenPointToRay(Input.mousePosition),out hit))
             {
-                SetDestination(hit.point);
+                var center = hit.collider.bounds.center;
+                SetDestination(center);
             }
         }
         Move();
