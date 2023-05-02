@@ -43,9 +43,11 @@ public class ClickMovement : MonoBehaviour
     {
         if (isMove)
         {
-            if(Vector3.Distance(destination, transform.position)<= 0.1f)
+            if(Vector3.Distance(destination, transform.position)<= 0.5f)
             {
                 isMove = false;
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
                 return;
             }
         var dir = destination - transform.position;
