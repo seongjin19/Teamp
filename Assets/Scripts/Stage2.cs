@@ -27,9 +27,9 @@ public class Stage2 : MonoBehaviour
     {
         if (is_tag2)
         {
-            obs.transform.position = Vector3.MoveTowards(obs.transform.position, t1, 0.008f);
-            s1.transform.position = Vector3.MoveTowards(s1.transform.position, t2, 0.008f);
-            s2.transform.position = Vector3.MoveTowards(s2.transform.position, t3, 0.008f);
+            obs.transform.position = Vector3.MoveTowards(obs.transform.position, t1, 0.08f);
+            s1.transform.position = Vector3.MoveTowards(s1.transform.position, t2, 0.08f);
+            s2.transform.position = Vector3.MoveTowards(s2.transform.position, t3, 0.08f);
         }
     }
 
