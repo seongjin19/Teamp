@@ -8,7 +8,7 @@ public class ClickMovement : MonoBehaviour
 
     private bool isMove;
     private Vector3 destination;
-
+    private Animator animator;
     private void Awake()
     {
         camera = Camera.main;
@@ -16,7 +16,7 @@ public class ClickMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -31,6 +31,7 @@ public class ClickMovement : MonoBehaviour
                 SetDestination(center);
             }
         }
+        animator.SetBool("is_walk", true);
         Move();
     }
     private void SetDestination(Vector3 dest)
@@ -50,8 +51,8 @@ public class ClickMovement : MonoBehaviour
                 GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
                 return;
             }
-        var dir = destination - transform.position;
-        transform.position += dir.normalized * Time.deltaTime * 5f;
+            var dir = destination - transform.position;
+            transform.position += dir.normalized * Time.deltaTime * 5f;
         }
     }
 }

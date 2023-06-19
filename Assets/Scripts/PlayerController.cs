@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     // 마우스 클릭한 큐브
     public Transform clickedCube;
 
- 
+    private Animator animator;
 
     [Space]
     [Header("PathFinding")]
@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+
         // 플레이어가 밟고 있는 큐브 설정
         RayCastDown();
 
@@ -54,6 +56,7 @@ public class PlayerController : MonoBehaviour
         // 마우스 클릭과 게임매니저 플래그 체크
         if (Input.GetMouseButtonDown(1))
         {
+            animator.SetBool("is_walk", true);
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit mouseHit;
 
@@ -237,6 +240,7 @@ public class PlayerController : MonoBehaviour
             else
             {
                 LayerCheck(nextCube.transform);
+                animator.SetBool("is_walk", false);
             }
         }
 
