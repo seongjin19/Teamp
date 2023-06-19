@@ -35,7 +35,7 @@ public class Stage2 : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("tag2"))
+        if (other.gameObject.CompareTag("Player"))
         {
             is_tag2 = true;
         }
