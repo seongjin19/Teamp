@@ -154,7 +154,7 @@ public class ObjectRot : MonoBehaviour
         {
             for (int j = 0; j < pathCubes[i].path.Count; j++)
             {
-                pathCubes[i].path[j].block.possiblePaths[pathCubes[i].path[j].index - 1].active =
+                pathCubes[i].path[j].block.possiblePaths[pathCubes[i].path[j].index-1].active =
                     transform.eulerAngles.Equals(pathCubes[i].angle);
             }
         }
