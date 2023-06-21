@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ObjectRot : MonoBehaviour
 {
+    public GameObject SecondFloar;
+
     public enum AxisOfRotate
     {
         X, Y, Z
@@ -31,11 +33,12 @@ public class ObjectRot : MonoBehaviour
         {
             Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit mouseHit;
-
+            
             if (Physics.Raycast(mouseRay, out mouseHit))
             {
                 if (mouseHit.transform == transform)
                 {
+     
                     isRotate = true;
 
                     pastAngle = getAngle();
@@ -43,6 +46,7 @@ public class ObjectRot : MonoBehaviour
                 }
                 else
                 {
+                   
                     for(int i = 0; i < transform.childCount; i++)
                     {
                         if(mouseHit.transform == transform.GetChild(i))
@@ -59,6 +63,7 @@ public class ObjectRot : MonoBehaviour
         }
         if (isRotate)
         {
+
             Vector2 rot = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 
             rot *= rotSpeed;
@@ -74,7 +79,7 @@ public class ObjectRot : MonoBehaviour
                 pastAngle = getAngle();
             }
 
-            // 각도 확인 후 큐브 경로 설정
+            //각도 확인 후 큐브 경로 설정
             //for (int i = 0; i < pathCubes.Count; i++)
             //{
             //    for (int j = 0; j < pathCubes[i].path.Count; j++)
@@ -151,14 +156,37 @@ public class ObjectRot : MonoBehaviour
         setAngle((finalAngle >= 360) ? (finalAngle - 360) : (finalAngle));
 
         // 각도 확인 후 큐브 경로 설정
-        for (int i = 0; i < pathCubes.Count; i++)
+        if(SecondFloar.GetComponent<Stage2>().GetIs_tag2() == false)
         {
-            for (int j = 0; j < pathCubes[i].path.Count; j++)
+            for (int i = 0; i < pathCubes.Count; i++)
             {
-                pathCubes[i].path[j].block.possiblePaths[pathCubes[i].path[j].index-1].active =
-                    transform.eulerAngles.Equals(pathCubes[i].angle);
+                for (int j = 0; j < pathCubes[i].path.Count; j++)
+                {
+                    pathCubes[i].path[j].block.possiblePaths[pathCubes[i].path[j].index - 1].active =
+                        transform.eulerAngles.Equals(pathCubes[i].angle);
+                }
             }
         }
+        else
+        {
+            for (int i = 0; i < pathCubes.Count; i++)
+            {
+                for (int j = 0; j < pathCubes[i].path.Count; j++)
+                {
+                    pathCubes[i].path[j].block.possiblePaths[pathCubes[i].path[j].index - 1].active = false;
+                        
+                }
+            }
+            for (int i = 0; i < pathCubes1.Count; i++)
+            {
+                for (int j = 0; j < pathCubes1[i].path.Count; j++)
+                {
+                    pathCubes1[i].path[j].block.possiblePaths[pathCubes1[i].path[j].index - 1].active =
+                        transform.eulerAngles.Equals(pathCubes1[i].angle);
+                }
+            }
+        }
+        
 
         yield return null;
     }

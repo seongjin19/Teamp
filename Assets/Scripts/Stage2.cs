@@ -40,4 +40,8 @@ public class Stage2 : MonoBehaviour
             is_tag2 = true;
         }
     }
+    public bool GetIs_tag2()
+    {
+        return is_tag2;
+    }
 }
