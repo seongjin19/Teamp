@@ -115,6 +115,7 @@ public class ObjectRot : MonoBehaviour
 
                         break;
                     }
+
                 }
             }
         }
@@ -156,7 +157,7 @@ public class ObjectRot : MonoBehaviour
         setAngle((finalAngle >= 360) ? (finalAngle - 360) : (finalAngle));
 
         // 각도 확인 후 큐브 경로 설정
-        if(SecondFloar.GetComponent<Stage2>().GetIs_tag2() == false)
+        if (SecondFloar.GetComponent<Stage2>().GetIs_tag2() == false)
         {
             for (int i = 0; i < pathCubes.Count; i++)
             {
