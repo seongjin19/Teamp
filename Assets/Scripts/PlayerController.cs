@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
 public class PlayerController : MonoBehaviour
 {
     [Space]
@@ -56,29 +59,29 @@ public class PlayerController : MonoBehaviour
         // 마우스 클릭과 게임매니저 플래그 체크
         if (Input.GetMouseButtonDown(1))
         {
-            animator.SetBool("is_walk", true);
-            Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit mouseHit;
+                animator.SetBool("is_walk", true);
+                Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit mouseHit;
 
-            // 레이 발사!!
-            if (Physics.Raycast(mouseRay, out mouseHit))
-            {
-                // 클릭한 곳이 Path인 경우
-                if (mouseHit.transform.GetComponent<Walkable>() != null)
+                // 레이 발사!!
+                if (Physics.Raycast(mouseRay, out mouseHit))
                 {
-                    // 클릭음 재생
-                    //SoundManager.instance.play("Navi", 0.5f);
+                    // 클릭한 곳이 Path인 경우
+                    if (mouseHit.transform.GetComponent<Walkable>() != null)
+                    {
+                        // 클릭음 재생
+                        //SoundManager.instance.play("Navi", 0.5f);
 
-                    // 클릭한 큐브 위치 설정
-                    clickedCube = mouseHit.transform;
+                        // 클릭한 큐브 위치 설정
+                        clickedCube = mouseHit.transform;
 
-                    // 경로 초기화
-                    finalPath.Clear();
+                        // 경로 초기화
+                        finalPath.Clear();
 
-                    // 길찾기 시작
-                    FindPath();
+                        // 길찾기 시작
+                        FindPath();
+                    }
                 }
-            }
         }
 
         FollowPath();
