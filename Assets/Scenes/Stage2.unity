@@ -8350,6 +8350,8 @@ MonoBehaviour:
   possiblePaths:
   - target: {fileID: 766840567}
     active: 1
+  - target: {fileID: 766840567}
+    active: 1
   previousBlock: {fileID: 0}
   dontRotate: 0
   movingGround: 0
