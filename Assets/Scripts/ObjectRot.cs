@@ -79,15 +79,7 @@ public class ObjectRot : MonoBehaviour
                 pastAngle = getAngle();
             }
 
-            //각도 확인 후 큐브 경로 설정
-            //for (int i = 0; i < pathCubes.Count; i++)
-            //{
-            //    for (int j = 0; j < pathCubes[i].path.Count; j++)
-            //    {
-            //        pathCubes[i].path[j].block.possiblePaths[pathCubes[i].path[j].index - 1].active =
-            //            transform.eulerAngles.Equals(pathCubes[i].angle);
-            //    }
-            //}
+           
             // 마우스를 떼면 더 이상 움직이지 않음
             if (Input.GetMouseButtonUp(0))
             {
