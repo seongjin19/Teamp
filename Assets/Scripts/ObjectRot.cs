@@ -68,7 +68,7 @@ public class ObjectRot : MonoBehaviour
 
             rot *= rotSpeed;
 
-            // 레버 회전
+            // 오브젝트 회전
             if (axisOfRotate == AxisOfRotate.X)
             {
                 transform.Rotate(rot.x, 0, 0);
@@ -89,7 +89,6 @@ public class ObjectRot : MonoBehaviour
             }
 
            
-            // 마우스를 떼면 더 이상 움직이지 않음
             if (Input.GetMouseButtonUp(0))
             {
                 isRotate = false;
@@ -97,7 +96,7 @@ public class ObjectRot : MonoBehaviour
                 float currentAngle = getAngle();
                 float targetAngle;
 
-                // 자동으로 맞출 각도 찾기
+                // 자동으로 적절한 각도 설정
                 for (int i = 270; i >= 0; i -= 90)
                 {
                     if (currentAngle > i)
@@ -111,7 +110,7 @@ public class ObjectRot : MonoBehaviour
                             targetAngle = i;
                         }
 
-                        // 각도 자동맞춤 시작
+                        // 각도 설정 입력
                         StartCoroutine(Rotate(currentAngle, targetAngle, true));
 
                         break;
@@ -125,7 +124,7 @@ public class ObjectRot : MonoBehaviour
     {
         float timing = 0;
 
-        // 튕길 각도(마우스를 놓았을 때 반대로 살짝 이동)
+        // 마우스를 놓았을 때 반대로 살짝 이동
         float firstAngle;
         if (finalAngle > startAngle)
         {
@@ -147,7 +146,7 @@ public class ObjectRot : MonoBehaviour
             nextAngle = finalAngle;
         }
 
-        // 회전
+    
         while (timing < 1.0f)
         {
             float angle = Mathf.Lerp(startAngle, nextAngle, timing);
@@ -160,7 +159,6 @@ public class ObjectRot : MonoBehaviour
             {
                 setAngle(nextAngle);
 
-                // 한 번 튕긴 경우
                 if (nextAngle != finalAngle)
                 {
                     startAngle = nextAngle;

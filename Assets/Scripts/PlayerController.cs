@@ -38,10 +38,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // 플레이어가 밟고 있는 큐브 설정
+        // 플레이어 아래에 있는 큐브 확인
         RayCastDown();
 
-        // 현재 밟고 있는 큐브가 움직이는 경우
+        // 플레이어가 밟고 있는 큐브가 움직이는 경우
         if (currentCube.GetComponent<Walkable>().movingGround)
         {
             // 플레이어를 그 자식으로 넣는다
@@ -52,26 +52,24 @@ public class PlayerController : MonoBehaviour
             transform.parent = null;
         }
 
-        // 마우스 클릭
+        
         if (Input.GetMouseButtonDown(1))
         {
                 animator.SetBool("is_walk", true);
                 Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit mouseHit;
 
-                // 레이 발사
+                
                 if (Physics.Raycast(mouseRay, out mouseHit))
                 {
                     // 클릭한 곳이 Path인 경우
                     if (mouseHit.transform.GetComponent<Walkable>() != null)
                     {
-                        // 클릭한 큐브 위치 설정
                         clickedCube = mouseHit.transform;
 
                         // 경로 초기화
                         finalPath.Clear();
 
-                        // 길찾기 시작
                         FindPath();
                     }
                 }
@@ -83,9 +81,9 @@ public class PlayerController : MonoBehaviour
     // 길찾기
     private void FindPath()
     {
-        // 다음 이동할 큐브
+        // 다음 이동할 큐브 리스트
         List<Transform> nextCubes = new List<Transform>();
-        // 이전 큐브
+        // 이전 큐브 리스트
         List<Transform> pastCubes = new List<Transform>();
 
         // 현재 큐브의 연결된 큐브 갯수만큼 루프
@@ -209,7 +207,7 @@ public class PlayerController : MonoBehaviour
         // 타일을 체크하여 플레이어 레이어 설정
         LayerCheck(nextCube.transform);
 
-        // 보간 적용(플레이어 실제 이동)
+        // 보간 적용 (플레이어 실제 이동)
         transform.position = Vector3.Lerp(pastCube.GetWalkPoint(), nextCube.GetWalkPoint(), timing);
 
         // 다음 경로 설정(플레이어가 이동 경로의 마지막 큐브에 도착)
@@ -250,11 +248,10 @@ public class PlayerController : MonoBehaviour
         Vector3 rayPos = transform.position;
         rayPos.y += transform.localScale.y * 0.5f;
 
-        // 레이 생성, 방향은 아래
+        
         Ray playerRay = new Ray(rayPos, -transform.up);
         RaycastHit playerHit;
 
-        // 레이 발사
         if (Physics.Raycast(playerRay, out playerHit))
         {
             // 플레이어가 발판을 밟고 있다면
