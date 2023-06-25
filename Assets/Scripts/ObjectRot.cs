@@ -69,9 +69,18 @@ public class ObjectRot : MonoBehaviour
             rot *= rotSpeed;
 
             // 레버 회전
-            transform.Rotate(((axisOfRotate == AxisOfRotate.X) ? (rot.x) : (0)),
-                    ((axisOfRotate == AxisOfRotate.Y) ? (rot.x) : (0)),
-                    ((axisOfRotate == AxisOfRotate.Z) ? (rot.x) : (0)));
+            if (axisOfRotate == AxisOfRotate.X)
+            {
+                transform.Rotate(rot.x, 0, 0);
+            }
+            else if (axisOfRotate == AxisOfRotate.Y)
+            {
+                transform.Rotate(0, rot.x, 0);
+            }
+            else if (axisOfRotate == AxisOfRotate.Z)
+            {
+                transform.Rotate(0, 0, rot.x);
+            }
 
 
             if (Mathf.Abs(getAngle() - pastAngle) >= 30.0f)
@@ -116,10 +125,27 @@ public class ObjectRot : MonoBehaviour
     {
         float timing = 0;
 
-        // 튕길 각도
-        float firstAngle = (finalAngle > startAngle) ? (finalAngle + 12.5f) : (finalAngle - 12.5f);
+        // 튕길 각도(마우스를 놓았을 때 반대로 살짝 이동)
+        float firstAngle;
+        if (finalAngle > startAngle)
+        {
+            firstAngle = finalAngle + 12.5f;
+        }
+        else
+        {
+            firstAngle = finalAngle - 12.5f;
+        }
+
         // 다음 각도
-        float nextAngle = (outBack) ? (firstAngle) : (finalAngle);
+        float nextAngle;
+        if (outBack)
+        {
+            nextAngle = firstAngle;
+        }
+        else
+        {
+            nextAngle = finalAngle;
+        }
 
         // 회전
         while (timing < 1.0f)
@@ -146,7 +172,14 @@ public class ObjectRot : MonoBehaviour
             yield return null;
         }
 
-        setAngle((finalAngle >= 360) ? (finalAngle - 360) : (finalAngle));
+        if (finalAngle >= 360)
+        {
+            setAngle(finalAngle - 360);
+        }
+        else
+        {
+            setAngle(finalAngle);
+        }
 
         // 각도 확인 후 큐브 경로 설정
         if (SecondFloar.GetComponent<Stage2>().GetIs_tag2() == false)

@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    [Space]
-    [Header("Cube Information")]
     // 현재 위치한 큐브
     public Transform currentCube;
     // 마우스 클릭한 큐브
@@ -16,9 +14,8 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
 
-    [Space]
-    [Header("PathFinding")]
-    // 플레이어가 실제 이동할 경로
+    
+    // 플레이어가 실제 이동할 경로 저장(이동할 큐브들의 Transform을 요소로 저장)
     public List<Transform> finalPath = new List<Transform>();
 
     // 이동 시 사용할 변수
@@ -26,7 +23,6 @@ public class PlayerController : MonoBehaviour
     Walkable nextCube;
     float timing = 0;
 
-    [Space]
     public float moveSpeed;
 
     void Start()
@@ -56,22 +52,19 @@ public class PlayerController : MonoBehaviour
             transform.parent = null;
         }
 
-        // 마우스 클릭과 게임매니저 플래그 체크
+        // 마우스 클릭
         if (Input.GetMouseButtonDown(1))
         {
                 animator.SetBool("is_walk", true);
                 Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit mouseHit;
 
-                // 레이 발사!!
+                // 레이 발사
                 if (Physics.Raycast(mouseRay, out mouseHit))
                 {
                     // 클릭한 곳이 Path인 경우
                     if (mouseHit.transform.GetComponent<Walkable>() != null)
                     {
-                        // 클릭음 재생
-                        //SoundManager.instance.play("Navi", 0.5f);
-
                         // 클릭한 큐브 위치 설정
                         clickedCube = mouseHit.transform;
 
@@ -83,7 +76,7 @@ public class PlayerController : MonoBehaviour
                     }
                 }
         }
-
+        // 탐색 종료 후 플레이어 이동
         FollowPath();
     }
 
@@ -114,13 +107,13 @@ public class PlayerController : MonoBehaviour
         BuildPath();
     }
 
+
     private void ExploreCube(List<Transform> nextCubes, List<Transform> visitedCubes)
     {
         Transform current = nextCubes.First();
         nextCubes.Remove(current);
 
-        // 클릭한 큐브와 현재 큐브가 같으면
-        // 목표 좌표에 도착한 것
+        // 클릭한 큐브와 현재 큐브가 같으면 목표 발판에 도착
         if (current == clickedCube)
         {
             return;
@@ -146,7 +139,7 @@ public class PlayerController : MonoBehaviour
         // 방문한 큐브 리스트에 현재 큐브 추가
         visitedCubes.Add(current);
 
-        // 리스트가 하나라도 있다면
+        // 리스트에 원소가 하나라도 있다면 재귀적으로 호출하여 큐브 탐색
         if (nextCubes.Count > 0)
         {
             ExploreCube(nextCubes, visitedCubes);
@@ -156,15 +149,15 @@ public class PlayerController : MonoBehaviour
     // 경로 생성
     private void BuildPath()
     {
-        Transform cube = clickedCube;
+        Transform cube = clickedCube; //(변수를 클릭한 큐브로 초기화)
 
-        // 클릭한 큐브가 현재큐브와 같지 않을 때까지
+        // cube가 현재큐브와 같지 않을 때까지 반복
         while (cube != currentCube)
         {
-            // 실제 이동할 경로에 삽입
+            // 실제 이동할 경로 리스트에 현재cube 삽입
             finalPath.Add(cube);
 
-            // 클릭한 큐브의 이전큐브가 None일 때
+            // 클릭한 큐브의 이전큐브가 None일 때 종료
             if (cube.GetComponent<Walkable>().previousBlock != null)
             {
                 cube = cube.GetComponent<Walkable>().previousBlock;
@@ -216,10 +209,10 @@ public class PlayerController : MonoBehaviour
         // 타일을 체크하여 플레이어 레이어 설정
         LayerCheck(nextCube.transform);
 
-        // 보간 적용
+        // 보간 적용(플레이어 실제 이동)
         transform.position = Vector3.Lerp(pastCube.GetWalkPoint(), nextCube.GetWalkPoint(), timing);
 
-        // 다음 경로 설정
+        // 다음 경로 설정(플레이어가 이동 경로의 마지막 큐브에 도착)
         if (timing >= 1.0f)
         {
             timing = 0;
@@ -261,10 +254,10 @@ public class PlayerController : MonoBehaviour
         Ray playerRay = new Ray(rayPos, -transform.up);
         RaycastHit playerHit;
 
-        // 레이 발사!!
+        // 레이 발사
         if (Physics.Raycast(playerRay, out playerHit))
         {
-            // 발판을 밟고 있다면
+            // 플레이어가 발판을 밟고 있다면
             if (playerHit.transform.GetComponent<Walkable>() != null)
             {
                 currentCube = playerHit.transform;
